@@ -1,0 +1,140 @@
+:root {
+  --bg: #111111;
+  --timer-bg: #1b1b1f;
+  --counter-bg: #13261b;
+  --counter-bg-active: #1a3a27;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --accent: #4ade80;
+  --handle: #52525b;
+  --handle-active: #a1a1aa;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.app {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.grid-stack { height: 100%; }
+
+/* Panels */
+.panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  overflow: hidden !important;
+  container-type: size;
+  text-align: center;
+}
+
+.panel-timer { background: var(--timer-bg); }
+
+.panel-counter {
+  background: var(--counter-bg);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+.panel-counter:active,
+.panel-counter.pulse { background: var(--counter-bg-active); }
+.panel-counter:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+
+.label {
+  margin: 0;
+  font-size: clamp(0.8rem, 6cqmin, 1.25rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.big {
+  display: block;
+  font-size: min(45cqh, 26cqw);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.panel-counter .big { color: var(--accent); }
+.panel-timer.idle .big { color: var(--muted); }
+
+.hint {
+  margin: 0;
+  font-size: clamp(0.8rem, 5cqmin, 1.1rem);
+  color: var(--muted);
+}
+
+.reset {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--handle);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.reset:active { background: var(--handle); color: var(--text); }
+
+/* Resize handle: a full-length divider with a grip, easy to grab by thumb. */
+.grid-stack-item > .ui-resizable-handle {
+  background: none;
+  transform: none;
+  opacity: 1;
+  z-index: 10;
+  touch-action: none;
+}
+.grid-stack-item > .ui-resizable-handle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: var(--handle);
+}
+.grid-stack-item > .ui-resizable-handle:active::after,
+.grid-stack-item.ui-resizable-resizing > .ui-resizable-handle::after { background: var(--handle-active); }
+
+.grid-stack-item > .ui-resizable-s {
+  left: 0; right: 0; bottom: 0;
+  width: 100%;
+  height: 32px;
+  cursor: ns-resize;
+}
+.grid-stack-item > .ui-resizable-s::after { width: 56px; height: 6px; }
+
+.grid-stack-item > .ui-resizable-e {
+  top: 0; bottom: 0; right: 0;
+  width: 32px;
+  height: 100%;
+  cursor: ew-resize;
+}
+.grid-stack-item > .ui-resizable-e::after { width: 6px; height: 56px; }
+
+/* Hide gridstack's resize placeholder so the counter tracks the handle cleanly. */
+.grid-stack > .grid-stack-placeholder > .placeholder-content { display: none; }
