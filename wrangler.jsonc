@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "counter-timer",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "durable_objects": {
+    "bindings": [{ "name": "REST_ALARM", "class_name": "RestAlarm" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RestAlarm"] }],
+  "vars": {
+    // Contact address push services can use if something goes wrong. Change it to yours.
+    "VAPID_SUBJECT": "mailto:admin@example.com"
+  }
+  // Secrets (not in this file): VAPID_PUBLIC_KEY, VAPID_PRIVATE_JWK.
+  // Locally they come from .dev.vars (npm run vapid).
+}

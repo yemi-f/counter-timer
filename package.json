@@ -1,0 +1,16 @@
+{
+  "name": "counter-timer",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "vapid": "node scripts/generate-vapid-keys.js"
+  },
+  "dependencies": {
+    "@pushforge/builder": "^2.0.5"
+  },
+  "devDependencies": {
+    "wrangler": "^4.144.0"
+  }
+}
