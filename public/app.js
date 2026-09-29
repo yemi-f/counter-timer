@@ -268,7 +268,7 @@
     seq = Math.max(seq + 1, Date.now());
     const path = wanted ? '/api/schedule' : '/api/cancel';
     const body = wanted
-      ? { deviceId: push.deviceId, seq, subscription: push.subscription, fireAt, count: state.count, target }
+      ? { deviceId: push.deviceId, seq, subscription: push.subscription, fireAt, target }
       : { deviceId: push.deviceId, seq };
 
     // keepalive lets the request finish even if the page is hidden right after a tap.

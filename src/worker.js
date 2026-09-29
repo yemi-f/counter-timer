@@ -28,7 +28,7 @@ export default {
         return json({ ok: true });
       }
 
-      const { subscription, fireAt, count, target } = input;
+      const { subscription, fireAt, target } = input;
       const now = Date.now();
       if (!isValidSubscription(subscription)) return json({ error: 'bad subscription' }, 400);
       if (!Number.isFinite(fireAt) || fireAt <= now || fireAt > now + MAX_AHEAD_MS) {
@@ -37,7 +37,6 @@ export default {
       await stub.schedule(input.seq, {
         subscription: { endpoint: subscription.endpoint, keys: subscription.keys },
         fireAt,
-        count: Number.isInteger(count) ? count : 0,
         target: Number.isInteger(target) ? target : 0,
       });
       return json({ ok: true });
@@ -98,10 +97,7 @@ export class RestAlarm extends DurableObject {
       privateJWK: this.env.VAPID_PRIVATE_JWK,
       subscription: job.subscription,
       message: {
-        payload: {
-          title: 'Rest over',
-          body: `${formatSeconds(job.target)} up — time for set ${job.count + 1}`,
-        },
+        payload: { title: 'Rest over', body: `${formatSeconds(job.target)} up` },
         adminContact: this.env.VAPID_SUBJECT,
         options: { ttl: 60, urgency: 'high', topic: 'rest' },
       },

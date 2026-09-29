@@ -1,5 +1,5 @@
 // Bump the version whenever any cached file changes.
-const CACHE = 'counter-timer-v5';
+const CACHE = 'counter-timer-v6';
 const ASSETS = [
   './',
   'index.html',
@@ -11,6 +11,7 @@ const ASSETS = [
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
+  'icons/badge-96.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -42,11 +43,11 @@ self.addEventListener('push', (event) => {
   try { data = event.data ? event.data.json() : {}; } catch { /* ignore */ }
   event.waitUntil(
     self.registration.showNotification(data.title || 'Rest over', {
-      body: data.body || 'Time for your next set',
+      ...(data.body ? { body: data.body } : {}),
       tag: 'rest',
       renotify: true,
       icon: 'icons/icon-192.png',
-      badge: 'icons/icon-192.png',
+      badge: 'icons/badge-96.png', // monochrome: Android uses only its alpha
       vibrate: [200, 100, 200],
     })
   );
