@@ -10,11 +10,9 @@
   "durable_objects": {
     "bindings": [{ "name": "REST_ALARM", "class_name": "RestAlarm" }]
   },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RestAlarm"] }],
-  "vars": {
-    // Contact address push services can use if something goes wrong. Change it to yours.
-    "VAPID_SUBJECT": "mailto:admin@example.com"
-  }
-  // Secrets (not in this file): VAPID_PUBLIC_KEY, VAPID_PRIVATE_JWK.
-  // Locally they come from .dev.vars (npm run vapid).
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RestAlarm"] }]
+  // Secrets (kept out of this file so the repo can be public):
+  //   VAPID_PUBLIC_KEY, VAPID_PRIVATE_JWK — push keys (npm run vapid)
+  //   VAPID_SUBJECT — mailto: contact address for push services
+  // Locally they come from .dev.vars; in production, `npx wrangler secret put <NAME>`.
 }
