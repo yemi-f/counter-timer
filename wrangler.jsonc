@@ -10,7 +10,9 @@
   "durable_objects": {
     "bindings": [{ "name": "REST_ALARM", "class_name": "RestAlarm" }]
   },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RestAlarm"] }]
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RestAlarm"] }],
+  // Workers Logs: shows requests and failed pushes in the dashboard.
+  "observability": { "enabled": true }
   // Secrets (kept out of this file so the repo can be public):
   //   VAPID_PUBLIC_KEY, VAPID_PRIVATE_JWK — push keys (npm run vapid)
   //   VAPID_SUBJECT — mailto: contact address for push services
