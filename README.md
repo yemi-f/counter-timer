@@ -1,6 +1,6 @@
 # Counter Timer
 
-A rest timer and set counter for the gym, built as a mobile-first progressive web app. Tap to log a set, and the rest timer starts again from zero. Set a target rest time and your phone notifies you when it's up, even if the screen is locked or you've switched apps.
+A rest timer and set counter for the gym, built as a mobile-first progressive web app. Tap to log a set, and the rest timer starts again from zero. Set an optional target rest time and your phone notifies you when it's up, even if the screen is locked or you've switched apps.
 
 <p align="center">
   <img src="docs/screenshots/resting.png" width="240" alt="Rest timer at 0:47 with a 1:30 target, and 3 sets logged">
@@ -11,13 +11,13 @@ A rest timer and set counter for the gym, built as a mobile-first progressive we
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/landscape.png" width="620" alt="Landscape layout with the timer and counter side by side">
+  <img src="docs/screenshots/landscape.png" width="620" alt="Landscape layout with no target set: the timer and counter side by side">
 </p>
 
 ## Features
 
 - **One tap per set.** Tapping the bottom panel adds a set and restarts the rest timer at 0:00.
-- **Target rest time.** Pick a preset (1:00, 1:30, 2:00, 3:00) or enter your own. A progress bar fills toward the target, and the timer turns green when you reach it.
+- **Optional target rest time.** Pick a preset (1:00, 1:30, 2:00, 3:00) or enter your own. A progress bar fills toward the target, and the timer turns green when you reach it.
 - **Push notifications.** A "Rest over / 1:30 up" notification arrives at the target time, even when the phone is locked or another app is open.
 - **Accurate after backgrounding.** Elapsed time is calculated from the device clock, not from a ticking JavaScript timer, so switching apps or locking the screen loses no time.
 - **In-app alert.** When the target is reached the timer turns green and pulses, and the phone vibrates (Android). An optional beep is muted by default and toggled with the speaker button.
