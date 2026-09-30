@@ -18,7 +18,7 @@ A rest timer and set counter for the gym, built as a mobile-first progressive we
 
 - **One tap per set.** Tapping the bottom panel adds a set and restarts the rest timer at 0:00.
 - **Optional target rest time.** Pick a preset (1:00, 1:30, 2:00, 3:00) or enter your own. A progress bar fills toward the target, and the timer turns green when you reach it.
-- **Push notifications.** A "Rest over / 1:30 up" notification arrives at the target time, even when the phone is locked or another app is open.
+- **Push notifications.** A "⏱️ Rest over · 1:30 up" notification arrives at the target time, even when the phone is locked or another app is open.
 - **Accurate after backgrounding.** Elapsed time is calculated from the device clock, not from a ticking JavaScript timer, so switching apps or locking the screen loses no time.
 - **In-app alert.** When the target is reached the timer turns green and pulses, and the phone vibrates (Android). An optional beep is muted by default and toggled with the speaker button.
 - **Adjustable split.** Drag the divider to resize the panels. They stack in portrait and sit side by side in landscape.
@@ -42,6 +42,7 @@ Browsers can't schedule a notification for later from the page itself, and iOS s
 
 - **Frontend** (`public/`): plain HTML, CSS and JavaScript, with no build step. [gridstack.js](https://gridstackjs.com/) handles the resizable panels and is vendored in `public/vendor/` so the app works offline.
 - **Backend** (`src/worker.js`): one Cloudflare Worker that serves the static app and a small `/api`, plus the `RestAlarm` Durable Object. Push payloads are encrypted with [`@pushforge/builder`](https://www.npmjs.com/package/@pushforge/builder), which uses the Web Crypto API.
+- **Notifications** use the [Declarative Web Push](https://webkit.org/blog/16535/meet-declarative-web-push/) format. Safari on iOS/iPadOS 18.4 and later shows them directly, without waking the service worker. Other browsers pass the same payload to the service worker's `push` handler, which shows the notification.
 
 ## Project structure
 
@@ -102,6 +103,6 @@ Then set a target and tap **Enable alerts**.
 
 ## Notes
 
-- **Notifications need a signal** at two moments: when you tap (to schedule the push) and at the target time (to receive it). Pushes expire after 60 seconds, so a late "Rest over" never arrives long after your rest ended.
+- **Notifications need a signal** at two moments: when you tap (to schedule the push) and at the target time (to receive it). Pushes expire after 60 seconds, so a late notification never arrives long after your rest ended.
 - **iPhone:** the in-app beep is silenced by the silent switch, and web apps can't vibrate. Push notifications are the reliable alert on iOS.
 - **Data:** your count, target, sound setting and panel split are stored on the device in `localStorage`. The server stores only each device's push subscription and its next alarm.

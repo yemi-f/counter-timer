@@ -1,5 +1,5 @@
 // Bump the version whenever any cached file changes.
-const CACHE = 'counter-timer-v7';
+const CACHE = 'counter-timer-v9';
 const ASSETS = [
   './',
   'index.html',
@@ -38,12 +38,15 @@ self.addEventListener('fetch', (event) => {
 
 // Sent by the server when a rest reaches its target. Every push must show a
 // notification (userVisibleOnly), or browsers may revoke the subscription.
+// Pushes use the Declarative Web Push format: Safari 18.4+ shows them without
+// running this handler, so it runs on other browsers (and older Safari).
 self.addEventListener('push', (event) => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch { /* ignore */ }
+  const n = data.notification ?? data; // declarative payload, or a plain { title, body }
   event.waitUntil(
-    self.registration.showNotification(data.title || 'Rest over', {
-      ...(data.body ? { body: data.body } : {}),
+    self.registration.showNotification(n.title || 'Rest over', {
+      ...(n.body ? { body: n.body } : {}),
       tag: 'rest',
       renotify: true,
       icon: 'icons/icon-192.png',

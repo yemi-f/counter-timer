@@ -38,6 +38,7 @@ export default {
         subscription: { endpoint: subscription.endpoint, keys: subscription.keys },
         fireAt,
         target: Number.isInteger(target) ? target : 0,
+        appUrl: new URL('/', request.url).href, // where tapping the notification goes
       });
       return json({ ok: true });
     }
@@ -97,7 +98,19 @@ export class RestAlarm extends DurableObject {
       privateJWK: this.env.VAPID_PRIVATE_JWK,
       subscription: job.subscription,
       message: {
-        payload: { title: 'Rest over', body: `${formatSeconds(job.target)} up` },
+        // Declarative Web Push: Safari (iOS 18.4+) shows this notification itself,
+        // without waking the service worker. Other browsers deliver it to the
+        // service worker's push handler, which reads the same fields.
+        payload: {
+          web_push: 8030,
+          notification: {
+            // iOS adds "from <app name>" under the title, so keep the title minimal.
+            // ️ asks for the colour emoji rather than the text glyph.
+            title: '⏱️',
+            body: `Rest over · ${formatSeconds(job.target)} up`,
+            navigate: job.appUrl,
+          },
+        },
         adminContact: this.env.VAPID_SUBJECT,
         options: { ttl: 60, urgency: 'high', topic: 'rest' },
       },

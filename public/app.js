@@ -287,12 +287,14 @@
     });
   }
 
-  // Coming back to the app: a rest notification that's already showing is stale.
+  // Opening the app: a rest notification that's already showing is stale.
+  // No tag filter: the app only sends rest notifications, and declarative
+  // pushes shown by Safari don't carry our tag.
   async function clearRestNotifications() {
     if (!pushSupported) return;
     try {
       const reg = await navigator.serviceWorker.ready;
-      (await reg.getNotifications({ tag: 'rest' })).forEach((n) => n.close());
+      (await reg.getNotifications()).forEach((n) => n.close());
     } catch { /* ignore */ }
   }
 
@@ -448,6 +450,7 @@
   renderTarget();
   renderSound();
   checkSubscription();
+  clearRestNotifications(); // also on a fresh launch, not just on returning from the background
   if (state.startedAt != null) {
     startLoop();
     requestWakeLock();
