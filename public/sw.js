@@ -1,5 +1,5 @@
 // Bump the version whenever any cached file changes.
-const CACHE = 'counter-timer-v6';
+const CACHE = 'counter-timer-v7';
 const ASSETS = [
   './',
   'index.html',

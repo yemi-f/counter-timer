@@ -1,6 +1,6 @@
 {
   "name": "Counter Timer",
-  "short_name": "Sets",
+  "short_name": "Counter Timer",
   "description": "Count your sets and time your rest between them.",
   "start_url": "./",
   "scope": "./",
