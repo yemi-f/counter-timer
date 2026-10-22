@@ -37,6 +37,15 @@ html, body {
 
 .grid-stack { height: 100%; }
 
+/* Installed app in portrait: iOS blurs a band just below the status bar, and the
+   strip behind the status bar is the page background. Paint the strips behind the
+   status bar and home indicator to match the panels next to them, and keep the
+   top buttons clear of the blurred band. */
+@media (display-mode: standalone) and (orientation: portrait) {
+  :root { --top-clearance: 24px; }
+  html, body { background: linear-gradient(var(--timer-bg) 50%, var(--counter-bg) 50%); }
+}
+
 /* Panels */
 .panel {
   position: absolute;
@@ -99,7 +108,7 @@ html, body {
 .chip:active { background: var(--handle); color: var(--text); }
 .chip.accent { border-color: var(--accent); color: var(--accent); }
 
-.top-actions, .target-chip { position: absolute; top: 0.75rem; }
+.top-actions, .target-chip { position: absolute; top: calc(0.75rem + var(--top-clearance, 0px)); }
 .top-actions { right: 0.75rem; display: flex; gap: 0.5rem; }
 .target-chip { left: 0.75rem; font-variant-numeric: tabular-nums; }
 
